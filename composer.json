@@ -1,0 +1,33 @@
+{
+    "name": "lyuangg/laravel-umyproxy",
+    "description": "lyuangg/umyproxy laravel package",
+    "type": "library",
+    "keywords" : ["lyuangg", "yuancoder", "umyproxy", "proxy", "mysql", "laravel", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yuan",
+            "email": "yuan@yuancoder.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "laravel/framework": ">5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Umyproxy\\": "src/"
+        }
+    },
+     "bin": [
+        "bin/umyproxy-linux",
+        "bin/umyproxy-mac"
+    ],
+     "extra": {
+        "laravel": {
+            "providers": [
+                "Umyproxy\\UmyproxyProvider"
+            ]
+        }
+    }
+}
