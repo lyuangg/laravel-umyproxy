@@ -4,6 +4,7 @@
     "type": "library",
     "keywords" : ["lyuangg", "yuancoder", "umyproxy", "proxy", "mysql", "laravel", "php"],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "yuan",
