@@ -21,8 +21,10 @@
         }
     },
      "bin": [
-        "bin/umyproxy-linux",
-        "bin/umyproxy-mac"
+         "bin/umyproxy-linux-amd64",
+         "bin/umyproxy-linux-arm64",
+         "bin/umyproxy-darwin-amd64",
+         "bin/umyproxy-darwin-arm64"
     ],
      "extra": {
         "laravel": {

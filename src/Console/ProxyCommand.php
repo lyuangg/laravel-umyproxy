@@ -20,6 +20,13 @@ class ProxyCommand extends Command
                                 {--wait= : wait mysql connection timeout}
                             ';
 
+    protected $binfiles = [
+        'mac_arm' => 'vendor/bin/umyproxy-darwin-arm64',
+        'mac_intel' => 'vendor/bin/umyproxy-darwin-amd64',
+        'linux_arm' => 'vendor/bin/umyproxy-linux-arm64',
+        'linux_intel' => 'vendor/bin/umyproxy-linux-amd64',
+    ];
+
     /**
      * The console command description.
      *
@@ -107,23 +114,38 @@ class ProxyCommand extends Command
 
     private function binFile()
     {
-        // windows
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $this->error("Does not support windows");
+        list($os, $architecture) = $this->detectOsAndArchitecture();
+        $binKey = $os . '_' . $architecture;
+    
+        if (isset($this->binfiles[$binKey])) {
+            return base_path($this->binfiles[$binKey]);
+        } else {
+            $this->error("Unsupported system: $os $architecture");
             die;
+        }
+    }
+
+    private function detectOsAndArchitecture()
+    {
+        $os = php_uname("s");
+        $architecture = php_uname("m");
+
+        if (strpos($os, "Linux") !== false) {
+            $os = "linux";
+        } elseif (strpos($os, "Darwin") !== false) {
+            $os = "mac";
+        } else {
+            $os = "unknown";
         }
 
-        // macos
-        $binfile = "";
-        if (strtolower(php_uname('s')) == 'darwin') {
-            $binfile = base_path("vendor/bin/umyproxy-mac");
+        if (strpos($architecture, "arm") !== false) {
+            $architecture = "arm";
+        } elseif (strpos($architecture, "x86") !== false) {
+            $architecture = "intel";
         } else {
-            $binfile = base_path("vendor/bin/umyproxy-linux");
+            $architecture = "unknown";
         }
-        if(!file_exists($binfile)) {
-            $this->error("$binfile not found!");
-            die;
-        }
-        return $binfile;
+
+        return array($os, $architecture);
     }
 }
